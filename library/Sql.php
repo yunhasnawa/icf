@@ -1,6 +1,6 @@
 <?php
 
-namespace framework\icf\library;
+namespace icf\library;
 
 class Sql {
 

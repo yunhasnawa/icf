@@ -1,8 +1,8 @@
 <?php
 
-namespace framework\icf\data_context;
+namespace icf\data_context;
 
-use framework\icf\main\ICF_Setting;
+use icf\main\ICF_Setting;
 
 class Connection_Account {
 	

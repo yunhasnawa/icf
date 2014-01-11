@@ -1,11 +1,10 @@
 <?php
 
-namespace framework\icf\library;
+namespace icf\library;
 
-use framework\icf\main\ICF_Globals;
-
-use framework\icf\main\ICF_Setting;
-use framework\icf\main\ICF_Exception;
+use icf\main\ICF_Globals;
+use icf\main\ICF_Setting;
+use icf\main\ICF_Exception;
 
 class Auth {
 	
@@ -35,7 +34,7 @@ class Auth {
 		$this->_redirectBack = true;
 		
 		$this->authSourceType   = $authSourceType;
-		$this->authRedirectPage = Base::site_url(ICF_Setting::AUTH_REDIRECT_PAGE);
+		$this->authRedirectPage = Base::siteUrl(ICF_Setting::getInstance()->authRedirectPage);
 		
 		$this->_beginSession();
 		

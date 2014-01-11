@@ -1,13 +1,16 @@
 <?php
-
-namespace framework\icf\library;
-
 /**
  * @author Yoppy Yunhasnawa
  * @copyright 2011
  */
 
-use framework\icf\main\ICF_Setting;
+namespace icf\library;
+
+require_once 'icf/main/ICF_Setting.php';
+
+use icf\main\ICF_Setting;
+use icf\main\ICF_Constants;
+use icf\main\ICF_Globals;
 
 class Base {
 	
@@ -26,11 +29,11 @@ class Base {
 		}
 	}
 	
-	public static function site_url($next = "") {
+	public static function siteUrl($next = "") {
 		
 		$slash = Base::_getSlash($next, '/');
 		
-		$settingUrl = ICF_Setting::SITE_URL;
+		$settingUrl = ICF_Setting::getInstance()->siteUrl;
 		
 		//if(strpos($settingUrl, 'http://') === false)
 			//$settingUrl = "http://$settingUrl";
@@ -65,20 +68,16 @@ class Base {
 		}
 	}
 	
-	public static function site_dir($next = "") {
+	public static function siteDir($next = '')
+	{
+		$rootDir = ICF_Globals::$SITE_DIR;
 		
-		$filePath = dirname(__FILE__);
+		$completeDir = "$rootDir/$next";
 		
-		$slash = Base::_getSlash($next);
-		
-		$filePath = str_replace($slash . ICF_Setting::FRAMEWORK_DIRECTORY . $slash . 'icf' . $slash . 'library', '', $filePath) . $slash . $next;
-		
-		// FIXME: Windows path compatibility issue
-		
-		return $filePath;
+		return $completeDir;
 	}
 	
-	public static function insert_ecma($fileName, $echo = true) {
+	public static function insertScript($fileName, $echo = true) {
 		
 		$scriptTag = <<< PHREDOC
 		<script type="text/javascript" src="ecma/$fileName.js"></script>
@@ -91,7 +90,7 @@ PHREDOC;
 	
 	}
 	
-	public static function insert_css($fileName, $echo = true) {
+	public static function insertStyle($fileName, $echo = true) {
 		
 		$styleTag = <<< PHREDOC
 		<link rel="stylesheet" href="css/$fileName.css" />
@@ -133,7 +132,7 @@ PHREDOC;
 	 * 
 	 * @return string|mixed[] caller data
 	 */
-	public static function find_caller($subjects = '') {
+	public static function findCaller($subjects = '') {
 		
 		$subjects = empty($subjects) ? 'file' : $subjects;
 		
@@ -185,16 +184,22 @@ PHREDOC;
 	{
 		$slash = '';
 		
-		if($absoluteSlash) {
+		if($absoluteSlash) 
+		{
 			$slashType = $absoluteSlash;
-		} else {
-			$slashType = ICF_Setting::SERVER_ENVIRONMET == ICF_Setting::SERVER_ENVIRONMENT_UNIX ?
+		} 
+		else 
+		{
+			$slashType = ICF_Setting::getInstance()->serverEnvironment == ICF_Constants::SERVER_ENVIRONMENT_UNIX ?
 				'/' : "\\";
 		}
 		
-		if(!empty($next)) {
+		if(!empty($next)) 
+		{
 			$first = $next[0];
-			if($first !== $slashType) {
+			
+			if($first !== $slashType) 
+			{
 				$slash = $slashType;
 			}
 		}

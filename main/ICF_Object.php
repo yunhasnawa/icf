@@ -1,8 +1,6 @@
 <?php
 
-namespace framework\icf\main;
-
-use framework\icf\library\Base;
+namespace icf\main;
 
 class ICF_Object {
 	

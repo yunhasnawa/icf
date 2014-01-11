@@ -1,16 +1,20 @@
 <?php
 
-namespace framework\icf\pattern;
+namespace icf\pattern;
 
-use framework\icf\main\ICF_Globals;
-use framework\icf\library\Base;
+require_once 'icf/main/ICF_Globals.php';
+require_once 'icf/library/Base.php';
+
+use icf\main\ICF_Globals;
+use icf\library\Base;
 
 /**
  * @author Yoppy Yunhasnawa
  * @copyright 2011
  */
 
-class View {
+class View 
+{
 	// TODO: Implement IPattern on View class
 	public $windowTitle;
 	public $pageTitle;
@@ -35,33 +39,33 @@ class View {
 	
 	public static function factory($auth)
 	{
-		if(empty(ICF_Globals::$VIEW)) {
-				
+		if(empty(ICF_Globals::$VIEW)) 
+		{
 			$instance = new View($auth);
-				
-		} else {
-			
-			$instance = ICF_Globals::$VIEW;
-			
+		}
+		else 
+		{	
+			$instance = ICF_Globals::$VIEW;	
 		}
 		
 		return $instance;
 	}
 	
-	public function render($viewFileName, $parameter = '') {
+	public function render($viewFileName, $parameter = '') 
+	{
 		
 		$viewFile = Base::site_dir("view/$viewFileName" . '.php');
 		
-		if(!empty($parameter)) {
-		
-			foreach($parameter as $varName => $value) {
+		if(!empty($parameter)) 
+		{
+			foreach($parameter as $varName => $value) 
+			{
 				$$varName = $value;
 			}
 		}
 		
 		include $viewFile;
 		// FIXME: Lack support for multi sites/subdomain
-	
 	}
 }
 

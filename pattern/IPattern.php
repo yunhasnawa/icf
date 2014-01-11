@@ -1,6 +1,6 @@
 <?php
 
-namespace framework\icf\pattern;
+namespace icf\pattern;
 
 interface IPattern {
 	

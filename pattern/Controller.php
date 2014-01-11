@@ -1,19 +1,26 @@
 <?php
 
-namespace framework\icf\pattern;
+namespace icf\pattern;
 
-use framework\icf\main\ICF_Setting;
+require_once 'icf/main/ICF_Object.php';
+require_once 'icf/pattern/IPattern.php';
+require_once 'icf/main/ICF_Setting.php';
+require_once 'icf/library/Auth.php';
+require_once 'icf/pattern/View.php';
 
-use framework\icf\main\ICF_Object;
-use framework\icf\library\Auth;
+use icf\main\ICF_Object;
+use icf\pattern\IPattern;
+use icf\library\Auth;
+use icf\main\ICF_Setting;
+use icf\pattern\View;
 
 /**
  * @author Yoppy Yunhasnawa
  * @copyright 2011
  */
 
-class Controller extends ICF_Object implements IPattern{
-	
+class Controller extends ICF_Object implements IPattern
+{
 	protected $view;
 	protected $auth;
 	
@@ -33,15 +40,17 @@ class Controller extends ICF_Object implements IPattern{
 	private function _initializeView()
 	{
 		$this->view = View::factory($this->auth);
-		$this->view->pageTitle = ICF_Setting::SITE_NAME;
-		$this->view->windowTitle = ICF_Setting::SITE_NAME . ' v' . ICF_Setting::SITE_VERSION;
+		$this->view->pageTitle = ICF_Setting::getInstance()->siteName;
+		$this->view->windowTitle = ICF_Setting::getInstance()->siteName . ' v' . ICF_Setting::getInstance()->siteName;
 	}
 	
-	public function validateChild($childFileData) {
+	public function validateChild($childFileData) 
+	{
 		// TODO: Implement Controller::validateChild
 	}
 	
-	public function retrieveChildData($backtraceData) {
+	public function retrieveChildData($backtraceData) 
+	{
 		// TODO: Implement Controller::retrieveChildData
 	}
 }

@@ -1,13 +1,13 @@
 <?php
 
-namespace framework\icf\data_context;
+namespace icf\data_context;
 
-use framework\icf\main\ICF_Object;
+use icf\main\ICF_Object;
 use \PDO;
 use \PDOException;
-use framework\icf\main\ICF_Globals;
-use framework\icf\main\ICF_Setting;
-use framework\icf\library\Base;
+use icf\main\ICF_Globals;
+use icf\main\ICF_Setting;
+use icf\library\Base;
 
 class Database_Access extends ICF_Object{
 	

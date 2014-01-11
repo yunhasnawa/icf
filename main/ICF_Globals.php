@@ -1,6 +1,6 @@
 <?php
 
-namespace framework\icf\main;
+namespace icf\main;
 
 class ICF_Globals {
 	
@@ -14,6 +14,10 @@ class ICF_Globals {
 	public static $VIEW            = null;
 	public static $AUTH            = null;
 	public static $BROWSER_URL     = null;
+	public static $MODULE          = null;
+	public static $CONTROLLER      = null;
+	public static $METHOD          = null;
+	public static $SITE_DIR        = null;
 }
 
 ?>

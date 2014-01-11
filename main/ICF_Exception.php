@@ -1,6 +1,6 @@
 <?php
 
-namespace framework\icf\main;
+namespace icf\main;
 
 use \Exception;
 
