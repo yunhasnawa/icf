@@ -34,24 +34,24 @@ class ICF_Setting{
 	
 	private function __construct()
 	{
-		$this->siteUrl = 'localhost/jayuz';
-		$this->siteName = 'Jayuz';
-		$this->siteVersion = '1.0';
-		$this->debugEnvironment = true;
-		$this->dsn = 'mysql:host=localhost;dbname=spkmanager';
-		$this->dbUsername = 'root';
-		$this->dbPassword = '';
-		$this->dbDieOnError = true;
-		$this->siteModuleDirectory = 'modules';
-		$this->siteModelDirectory = 'model';
+		$this->siteUrl                 = 'localhost/jayuz';
+		$this->siteName                = 'Jayuz';
+		$this->siteVersion             = '1.0';
+		$this->debugEnvironment        = true;
+		$this->dsn                     = 'mysql:host=localhost;dbname=jayuz';
+		$this->dbUsername              = 'root';
+		$this->dbPassword              = 'bismillah';
+		$this->dbDieOnError            = true;
+		$this->siteModuleDirectory     = 'modules';
+		$this->siteModelDirectory      = 'model';
 		$this->siteControllerDirectory = 'controller';
-		$this->siteViewDirectory = 'view';
-		$this->siteStyleDirectory = 'css';
-		$this->siteScriptDirectory = 'ecma';
-		$this->frameworkDirectory = 'framework';
-		$this->authRedirectPage = '/auth';
-		$this->authCredentialFile = '/assets/credentials.auth';
-		$this->serverEnvironment = ICF_Constants::SERVER_ENVIRONMENT_UNIX;
+		$this->siteViewDirectory       = 'view';
+		$this->siteStyleDirectory      = 'css';
+		$this->siteScriptDirectory     = 'ecma';
+		$this->frameworkDirectory      = 'framework';
+		$this->authRedirectPage        = '/auth';
+		$this->authCredentialFile      = '/assets/credentials.auth';
+		$this->serverEnvironment       = ICF_Constants::SERVER_ENVIRONMENT_UNIX;
 	}
 	
 	public static function getInstance()

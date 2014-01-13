@@ -16,11 +16,11 @@ class Connection_Account {
 	
 	public function __construct() {
 		
-		$this->_dsn = ICF_Setting::DSN;
+		$this->_dsn = ICF_Setting::getInstance()->dsn;
 		
-		$this->_username = ICF_Setting::DB_USERNAME;
+		$this->_username = ICF_Setting::getInstance()->dbUsername;
 
-		$this->_password = ICF_Setting::DB_PASSWORD;
+		$this->_password = ICF_Setting::getInstance()->dbPassword;
 		
 		$this->_options = array();
 	}

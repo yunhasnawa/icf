@@ -36,6 +36,7 @@ class ICF_Application extends ICF_Object
 		if($this->checkRoute())
 		{
 			$this->_requireControllerFile();
+			$this->_saveGlobalVars();
 		}
 		else 
 		{
@@ -147,6 +148,13 @@ class ICF_Application extends ICF_Object
 		if(!is_file($filePath)) die('Sorry, controller file not found!');
 		
 		require_once $filePath;
+	}
+	
+	private function _saveGlobalVars()
+	{
+		ICF_Globals::$CONTROLLER = $this->_controllerName;
+		ICF_Globals::$METHOD     = $this->_methodName;
+		ICF_Globals::$MODULE     = $this->getModuleName();
 	}
 	
 	public function getControllerNamespace()

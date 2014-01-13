@@ -327,7 +327,7 @@ class Sql {
 
 			foreach ($data as $key => $val) {
 				
-				$secureData[$key] = mysql_escape_string($val);
+				$secureData[$key] = mysql_real_escape_string($val);
 				
 			}
 			

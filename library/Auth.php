@@ -43,14 +43,13 @@ class Auth {
 	
 	public static function factory($authSourceType = Auth::AUTH_TYPE_FILE)
 	{
-		if(empty(ICF_Globals::$AUTH)) {
-		
+		if(empty(ICF_Globals::$AUTH)) 
+		{
 			$instance = new Auth();
-		
-		} else {
-				
-			$instance = ICF_Globals::$AUTH;
-				
+		} 
+		else 
+		{		
+			$instance = ICF_Globals::$AUTH;		
 		}
 		
 		return $instance;
@@ -65,7 +64,8 @@ class Auth {
 	/**
 	 * @return the $_username
 	 */
-	public function getUsername() {
+	public function getUsername() 
+	{
 		return $this->_username;
 	}
 
@@ -86,8 +86,8 @@ class Auth {
 		if(!empty($password))
 			$_SESSION[Auth::SESSION_PASSWORD_KEY] = $password;
 		
-		if(empty($username) && empty($password)) {
-			
+		if(empty($username) && empty($password)) 
+		{	
 			$originUri = ICF_Globals::$BROWSER_URL;
 			
 			$this->_saveOriginUri($originUri);
@@ -95,11 +95,16 @@ class Auth {
 			$this->_redirectBack = false;
 		}
 		
-		if($this->authSourceType == Auth::AUTH_TYPE_FILE) {
+		if($this->authSourceType == Auth::AUTH_TYPE_FILE) 
+		{
 			$this->_authenticateFromFile();
-		} elseif($this->authSourceType == Auth::AUTH_TYPE_DB) {
+		} 
+		elseif($this->authSourceType == Auth::AUTH_TYPE_DB) 
+		{
 			$this->_authenticateFromDb();
-		} else {
+		} 
+		else 
+		{
 			throw new ICF_Exception(ICF_Exception::INVALID_AUTENTHICATION_TYPE);
 		}
 	}
@@ -122,34 +127,37 @@ class Auth {
 		$sessPassword = isset($_SESSION[Auth::SESSION_PASSWORD_KEY]) ?
 			$_SESSION[Auth::SESSION_PASSWORD_KEY]: false;
 		
-		if($sessPassword !== false && $sessUsername !== false) {
-		
+		if($sessPassword !== false && $sessUsername !== false) 
+		{
 			$result = Auth::AUTH_RESULT_WRONG_USERNAME;
 
-			foreach ($credentials as $user) {
-				
+			foreach ($credentials as $user) 
+			{	
 				$expl = explode('|', $user);
 				
 				$username = $expl[0];
 				$group    = $expl[1];
 				$password = $expl[2];
 				
-				if($sessUsername === $username) {
-					if($sessPassword === $password) {
+				if($sessUsername === $username) 
+				{
+					if($sessPassword === $password) 
+					{
 						$result = Auth::AUTH_RESULT_SUCCESS;
 						$this->_username = $username;
 						$this->_password = $password;
 						break;
-					} else {
+					} 
+					else 
+					{
 						$result = Auth::AUTH_RESULT_WRONG_PASSWORD;
 					}
 				}
 			}
-		
-		} else {
-			
-			$result = Auth::AUTH_RESULT_NOT_LOGGED_IN;
-			
+		} 
+		else 
+		{	
+			$result = Auth::AUTH_RESULT_NOT_LOGGED_IN;	
 		}
 		
 		$this->_processAuthResult($result);
@@ -158,7 +166,8 @@ class Auth {
 	
 	private function _processAuthResult($result)
 	{
-		switch ($result) {
+		switch ($result) 
+		{
 			case Auth::AUTH_RESULT_NOT_LOGGED_IN :
 				$message = 'Not logged in!';
 				break;
@@ -172,14 +181,17 @@ class Auth {
 				$message = '';
 		}
 		
-		if(!empty($message)) {
-			
+		if(!empty($message)) 
+		{	
 			$decodedMessage = urlencode(base64_encode($message));
 			$url = $this->authRedirectPage . "?message=$decodedMessage";
 
 			Base::redirect($url);
-		} else {
-			if(!empty($this->authOriginUri) && $this->_redirectBack) {
+		} 
+		else 
+		{
+			if(!empty($this->authOriginUri) && $this->_redirectBack) 
+			{
 				$this->_redirectToOriginPage();
 			}
 		}

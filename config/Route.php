@@ -8,7 +8,7 @@ class Route
 	{
 		return array(
 			'jayuz_api' => array(
-				'user/register' => array('User' => 'register')
+				'user/register' => array('User' => 'register'),
 			)
 		);
 	}

@@ -12,10 +12,10 @@ use icf\main\ICF_Setting;
 use icf\main\ICF_Constants;
 use icf\main\ICF_Globals;
 
-class Base {
-	
-	public static function redirect($url, $javascriptRedirection = true) {
-		
+class Base 
+{
+	public static function redirect($url, $javascriptRedirection = true) 
+	{	
 		$expl = explode('/', Base::site_url());
 		
 		$rootUrl = $expl[0];
@@ -31,7 +31,7 @@ class Base {
 	
 	public static function siteUrl($next = "") {
 		
-		$slash = Base::_getSlash($next, '/');
+		$slash = Base::getSlash($next, '/');
 		
 		$settingUrl = ICF_Setting::getInstance()->siteUrl;
 		
@@ -47,23 +47,28 @@ class Base {
 		return $url;
 	}
 	
-	public static function arrdeb($variable, $die = false, $insource = false) {
+	public static function arrdeb($variable, $tag = '', $die = false, $insource = false) 
+	{	
+		if(!empty($tag))
+		{
+			echo "<h3>$tag</h3>";
+		}
 		
-		if ($insource) {
-			
+		if ($insource) 
+		{	
 			echo '<pre><!--';
 			print_r ( $variable );
 			echo '--></pre>';
-		
-		} else {
-			
+		} 
+		else 
+		{	
 			echo '<pre>';
 			print_r ( $variable );
 			echo trim ( '</pre>' );
-		
 		}
 		
-		if ($die !== false) {
+		if ($die !== false) 
+		{
 			die ();
 		}
 	}
@@ -72,7 +77,16 @@ class Base {
 	{
 		$rootDir = ICF_Globals::$SITE_DIR;
 		
-		$completeDir = "$rootDir/$next";
+		if(is_array($next))
+		{
+			$segments = implode('/', $next);
+			
+			$completeDir = "$rootDir/$segments";
+		}
+		else 
+		{
+			$completeDir = "$rootDir/$next";
+		}
 		
 		return $completeDir;
 	}
@@ -180,20 +194,25 @@ PHREDOC;
 		return $callerData;
 	}
 	
-	private static function _getSlash($next, $absoluteSlash = false)
+	public static function getSlash($next = '', $absoluteSlash = false)
 	{
 		$slash = '';
 		
+		// If there is absolute slash given, use the absolute one
+		// Absolute slash is useful for URL slash, which is always '/'
 		if($absoluteSlash) 
 		{
 			$slashType = $absoluteSlash;
 		} 
-		else 
+		else // Otherwise, check setting
 		{
 			$slashType = ICF_Setting::getInstance()->serverEnvironment == ICF_Constants::SERVER_ENVIRONMENT_UNIX ?
 				'/' : "\\";
 		}
 		
+		// Check next string. If first char is slash, don't add more.
+		// This prevent double slash e.g. '//' or '\\'
+		// Finally, assign $slashType to $slash and return it.
 		if(!empty($next)) 
 		{
 			$first = $next[0];
@@ -202,6 +221,10 @@ PHREDOC;
 			{
 				$slash = $slashType;
 			}
+		}
+		else 
+		{
+			$slash = $slashType;
 		}
 		
 		return $slash;

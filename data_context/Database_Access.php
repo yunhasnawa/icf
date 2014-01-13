@@ -82,17 +82,28 @@ class Database_Access extends ICF_Object{
 		
 	}
 	
-	public function executeUpdate($sql) {
-		
+	public function executeUpdate($sql, $showError = false) 
+	{	
 		$this->_dataContext->exec($sql);
 		
-		$this->_showError($this->_dataContext);
-				
+		if($showError)
+		{
+			$this->_showError($this->_dataContext);
+		}
+
+		$error = $this->_dataContext->errorInfo();
+		
+		if($error[0] == '00000')
+		{
+			$error = null;
+		}
+		
+		return $error;
 	}
 	
 	private function _showError($dataContext) {
 		
-		$die = ICF_Setting::DB_DIE_ON_ERROR;
+		$die = ICF_Setting::getInstance()->dbDieOnError;
 		
 		$errorInfo = $dataContext->errorInfo();
 		
