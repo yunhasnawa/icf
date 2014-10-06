@@ -50,9 +50,9 @@ class Config
 		
 		foreach ($this->aplications as $application)
 		{
-			foreach ($application->getRoutes() as $route)
+			foreach ($application->getPages() as $page)
 			{
-				$uris[] = $route->getUri();
+				$uris[] = $page->getUri();
 			}
 		}
 		

@@ -3,6 +3,7 @@
 namespace ICF\Core;
 
 use ICF\Core\Config;
+use ICF\Component\View;
 
 require_once 'icf/icf.php';
 
@@ -21,16 +22,31 @@ class Engine
 	{
 		$currentUri = \ICF::currentUri();
 		
-		$application = $this->findApplication($currentUri);
+		$currentApplicationId = $this->currentApplicationId($currentUri);
+		
+		$application = $this->findApplication($currentApplicationId);
 		
 		if($application != null)
 		{
-			$application->run();
+			$application->run($currentUri);
 		}
 		else 
 		{
-			echo '404 -> URL Not Found!';
+			View::render404();
 		}
+	}
+	
+	private function currentApplicationId($currentUri)
+	{
+		$explode = explode('/', $currentUri);
+		
+		// array('', 'pageName', ...) -> take index #1
+		if(count($explode) > 1)
+		{
+			return $explode[1];
+		}
+		
+		return null;
 	}
 	
 	public static function getInstance()
@@ -43,35 +59,17 @@ class Engine
 		return Engine::$instance;
 	}
 	
-	private function findApplication($currentUri)
+	private function findApplication($currentApplicationId)
 	{
-		$uris = $this->config->availableUris();
-		
-		$index = 0;
-		$found = false;
-		
-		foreach ($uris as $uri)
-		{	
-			if($uri === $currentUri)
-			{
-				$found = true;
-				
-				break;
-			}
-			
-			$index++;
-		}
-		
-		$application = null;
-		
-		if($found)
+		foreach ($this->config->getApplications() as $application)
 		{
-			$applications = $this->config->getApplications();
-			
-			$application = $applications[$index];
+			if($application->getId() == $currentApplicationId)
+			{
+				return $application;
+			}
 		}
 		
-		return $application;
+		return null;
 	}
 }
 

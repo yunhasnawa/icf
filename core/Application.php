@@ -2,18 +2,28 @@
 
 namespace ICF\Core;
 
+use ICF\Component\View;
 class Application
 {
 	private $applicationData;
+	private $id;
 	private $name;
-	private $routes;
+	private $pages;
+	private $directory;
 	
 	public function __construct(array $applicationData)
 	{
 		$this->applicationData = $applicationData;
 		
+		$this->retrieveId();
 		$this->retrieveName();
-		$this->retrieveRoutes();
+		$this->retrievePages();
+		$this->retrieveDirectory();
+	}
+	
+	private function retrieveId()
+	{
+		$this->id = $this->applicationData['id'];
 	}
 	
 	private function retrieveName()
@@ -21,28 +31,67 @@ class Application
 		$this->name = $this->applicationData['name'];
 	}
 	
-	private function retrieveRoutes()
+	private function retrievePages()
 	{
-		$this->routes = array();
+		$this->pages = array();
 		
-		$routesData = $this->applicationData['routes'];
+		$pagesData = $this->applicationData['pages'];
 		
-		foreach ($routesData as $routeData)
+		foreach ($pagesData as $pageData)
 		{
-			$this->routes[] = new Route($routeData);
+			$this->pages[] = new Page($pageData);
 		}
 	}
 	
-	// Getters
-	public function getRoutes()
+	private function retrieveDirectory()
 	{
-		return $this->routes;
+		$this->directory = $this->applicationData['directory'];
+	}
+	
+	private function findPage($currentUri)
+	{
+		foreach ($this->pages as $page)
+		{
+			$pageUri = $page->getUri();
+			
+			if($pageUri === $currentUri)
+			{
+				return $page;
+			}
+		}
+		
+		return null;
+	}
+	
+	// Getters
+	public function getPages()
+	{
+		return $this->pages;
+	}
+	
+	public function getId()
+	{
+		return $this->id;
+	}
+	
+	public function getDirectory()
+	{
+		return $this->directory;
 	}
 	
 	// Publics
-	public function run()
+	public function run($currentUri)
 	{
-		echo "Yaay!! It is running!";
+		$page = $this->findPage($currentUri);
+		
+		if($page != null)
+		{
+			$page->open();
+		}
+		else 
+		{
+			View::render404();
+		}
 	}
 }
 
