@@ -7,31 +7,49 @@ class Page
 	private $pageData;
 	private $uri;
 	private $controller;
+	private $method;
 	private $html;
 	
 	public function __construct(array $pageData)
 	{
 		$this->pageData = $pageData;
 		
-		$this->retrieveUrl();
-		$this->retrieveClass();
+		$this->retrieveUri();
+		$this->retrieveController();
+		$this->retrieveMethod();
 		$this->retrieveHtml();
 	}
 	
-	public function retrieveUrl()
+	private function retrieveUri()
 	{
 		$this->uri = $this->pageData['uri'];
 	}
 	
-	public function retrieveClass()
+	private function retrieveController()
 	{
 		$this->controller = $this->pageData['controller'];
 	}
 	
-	public function retrieveHtml()
+	private function retrieveMethod()
+	{
+		$this->method = $this->pageData['method'];
+	}
+	
+	private function retrieveHtml()
 	{
 		$this->html = $this->pageData['html'];
 	}
+	
+	private function controllerFilePath($applicationPath)
+	{
+		$controllerPath = $applicationPath . "/controller";
+		
+		$controllerFilePath = "$controllerPath/{$this->controller}.php";
+		
+		return $controllerFilePath;
+	}
+	
+	// Getters
 	
 	public function getUri()
 	{
@@ -49,9 +67,17 @@ class Page
 	}
 	
 	// Publics
-	public function open()
+	public function open(Application $application)
 	{
-		echo "This is the page you looking for..";
+		$controllerNamespace = $application->getNamespace() . '\\Controller\\';
+		
+		$controllerName = $controllerNamespace . $this->controller;
+		
+		$controller = new $controllerName($application, $this);
+		
+		$functionName = $this->method;
+		
+		$controller->$functionName();
 	}
 }
 

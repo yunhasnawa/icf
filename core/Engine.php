@@ -40,7 +40,7 @@ class Engine
 	{
 		$explode = explode('/', $currentUri);
 		
-		// array('', 'pageName', ...) -> take index #1
+		// $explode contains: array('', 'pageName', ...) -> take index #1
 		if(count($explode) > 1)
 		{
 			return $explode[1];
