@@ -1,7 +1,8 @@
 <?php
 
 $config_data = array(
-	'applications' => array(
+	'iujs_directory' => 'icf/support/iujs',
+	'applications'   => array(
 		array(
 			'id'        => 'us',
 			'name'      => 'URL Shortener',

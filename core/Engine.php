@@ -15,7 +15,7 @@ class Engine
 	
 	private function __construct()
 	{	
-		$this->config = new Config();
+		$this->config = Config::getInstance();
 	}
 	
 	public function start()

@@ -4,12 +4,16 @@ namespace ICF\Core;
 
 class Config
 {
+	private static $instance;
+	
 	private $configData;
+	private $iujsDirectory;
 	private $aplications;
 	
-	public function __construct()
+	private function __construct()
 	{
 		$this->retrieveConfigData();
+		$this->retrieveIujsDirectory();
 		$this->retrieveApplications();
 	}
 	
@@ -18,6 +22,11 @@ class Config
 		require_once 'icf/support/config_data.php';
 		
 		$this->configData = $config_data;
+	}
+	
+	private function retrieveIujsDirectory()
+	{
+		$this->iujsDirectory = $this->configData['iujs_directory'];
 	}
 	
 	private function retrieveApplications()
@@ -41,6 +50,21 @@ class Config
 	public function getApplications()
 	{
 		return $this->aplications;
+	}
+	
+	public function getIujsDirectory()
+	{
+		return $this->iujsDirectory;
+	}
+	
+	public static function getInstance()
+	{
+		if(Config::$instance == null)
+		{
+			Config::$instance = new Config();
+		}
+		
+		return Config::$instance;
 	}
 	
 	// Publics

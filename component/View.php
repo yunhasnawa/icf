@@ -2,6 +2,8 @@
 
 namespace ICF\Component;
 
+use ICF\System\Iujs;
+
 class View
 {
 	private $applicationDirectory;
@@ -72,7 +74,14 @@ class View
 		
 		$htmlString = str_replace(View::BODY_HTML_PLACEHOLDER, $this->html, $htmlString);
 		
-		echo $htmlString;
+		$iujs = new Iujs();
+		
+		$iujs->data       = $data;
+		$iujs->htmlString = $htmlString;
+		
+		$completeHtml = $iujs->integrate();
+		
+		echo $completeHtml;
 	}
 	
 	public static function render404()
