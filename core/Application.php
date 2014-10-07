@@ -18,9 +18,9 @@ class Application
 		
 		$this->retrieveId();
 		$this->retrieveName();
-		$this->retrieveNamespace();
 		$this->retrievePages();
 		$this->retrieveDirectory();
+		$this->retrieveNamespace();
 	}
 	
 	private function retrieveId()
@@ -35,7 +35,9 @@ class Application
 	
 	private function retrieveNamespace()
 	{
-		$this->namespace = $this->applicationData['namespace'];
+		$cleanDirectory = str_replace('/', '', $this->directory);
+		
+		$this->namespace = ucfirst($cleanDirectory);
 	}
 	
 	private function retrievePages()

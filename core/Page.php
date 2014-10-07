@@ -7,7 +7,6 @@ class Page
 	private $pageData;
 	private $uri;
 	private $controller;
-	private $method;
 	private $html;
 	
 	public function __construct(array $pageData)
@@ -16,7 +15,6 @@ class Page
 		
 		$this->retrieveUri();
 		$this->retrieveController();
-		$this->retrieveMethod();
 		$this->retrieveHtml();
 	}
 	
@@ -28,11 +26,6 @@ class Page
 	private function retrieveController()
 	{
 		$this->controller = $this->pageData['controller'];
-	}
-	
-	private function retrieveMethod()
-	{
-		$this->method = $this->pageData['method'];
 	}
 	
 	private function retrieveHtml()
@@ -75,9 +68,7 @@ class Page
 		
 		$controller = new $controllerName($application, $this);
 		
-		$functionName = $this->method;
-		
-		$controller->$functionName();
+		$controller->initialize();
 	}
 }
 
