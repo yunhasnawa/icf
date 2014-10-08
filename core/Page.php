@@ -2,6 +2,7 @@
 
 namespace ICF\Core;
 
+use ICF\Component\View;
 class Page
 {
 	private $pageData;
@@ -59,6 +60,32 @@ class Page
 		return $this->html;
 	}
 	
+	// Privates
+	
+	private function cleanUri()
+	{
+		$explode = explode('.', $this->getUri());
+	
+		$clean = $explode[0];
+	
+		return $clean;
+	}
+	
+	private function extractMethodName($validUri)
+	{	
+		//echo "$validUri</br>";
+		$methodName = null;
+		
+		$replace = str_replace(($this->cleanUri() . '/'), '', $validUri);
+		
+		if(!empty($replace))
+		{
+			$methodName = $replace;
+		}
+	
+		return $methodName;
+	}
+	
 	// Publics
 	public function open(Application $application)
 	{
@@ -68,7 +95,43 @@ class Page
 		
 		$controller = new $controllerName($application, $this);
 		
-		$controller->initialize();
+		$methodName = $this->extractMethodName($application->getCurrentUri());
+		
+		if($methodName != null)
+		{
+			if(method_exists($controller, $methodName))
+			{
+				$controller->$methodName();
+			}
+			else 
+			{
+				View::render404();
+			}
+		}
+		else 
+		{
+			$controller->initialize();
+		}
+	}
+	
+	public function isValidUri($uri)
+	{
+		$explode = explode('/', $uri);
+	
+		$count = count($explode);
+	
+		if($count > 2 && $count < 5)
+		{
+			$firstSegments = implode('/', array($explode[0]. $explode[1], $explode[2]));
+			$firstSegments = "/$firstSegments";
+				
+			if($firstSegments == $this->cleanUri())
+			{
+				return true;
+			}
+		}
+	
+		return false;
 	}
 }
 

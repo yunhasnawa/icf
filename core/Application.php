@@ -11,6 +11,7 @@ class Application
 	private $namespace;
 	private $pages;
 	private $directory;
+	private $currentUri;
 	
 	public function __construct(array $applicationData)
 	{
@@ -61,7 +62,7 @@ class Application
 	{
 		foreach ($this->pages as $page)
 		{
-			if ($page->getUri() === $currentUri)
+			if ($page->isValidUri($currentUri))
 			{
 				return $page;
 			}
@@ -96,9 +97,16 @@ class Application
 		return $this->directory;
 	}
 	
+	public function getCurrentUri()
+	{
+		return $this->currentUri;
+	}
+	
 	// Publics
 	public function run($currentUri)
 	{
+		$this->currentUri = $currentUri;
+		
 		$page = $this->findPage($currentUri);
 		
 		if($page != null)

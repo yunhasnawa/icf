@@ -1,7 +1,7 @@
 <?php
 
 $config_data = array(
-	'iujs_directory' => 'icf/support/iujs',
+	'iujs_directory' => '/iujs',
 	'applications'   => array(
 		array(
 			'id'        => 'us',
@@ -12,6 +12,11 @@ $config_data = array(
 					'uri'        => '/us/index.php',
 					'controller' => 'Index',
 					'html'       => 'index.html'
+				),
+				array(
+					'uri'        => '/us/about.php',
+					'controller' => 'About',
+					'html'       => 'about.html'
 				)
 			)
 		)
