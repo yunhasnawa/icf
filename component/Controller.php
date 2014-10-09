@@ -27,4 +27,9 @@ class Controller
 	{
 		
 	}
+	
+	public function viewDidLoad($viewData)
+	{
+		
+	}
 }

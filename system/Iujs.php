@@ -30,4 +30,15 @@ class Iujs
 	{
 		return $this->htmlString;
 	}
+	
+	public static function findViewData()
+	{
+		$vd = $_GET['vd'];
+		
+		$unstringify = str_replace('\"', '"', $vd);
+		
+		$viewData = json_decode($unstringify, true);
+		
+		return $viewData;
+	}
 }

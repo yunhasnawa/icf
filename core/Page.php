@@ -3,6 +3,7 @@
 namespace ICF\Core;
 
 use ICF\Component\View;
+use ICF\System\Iujs;
 class Page
 {
 	private $pageData;
@@ -73,12 +74,14 @@ class Page
 	
 	private function extractMethodName($validUri)
 	{	
-		//echo "$validUri</br>";
 		$methodName = null;
 		
 		$replace = str_replace(($this->cleanUri() . '/'), '', $validUri);
 		
-		if(!empty($replace))
+		$isNotEmpty         = !empty($replace);
+		$isDifferentWithUri = $replace !== $this->uri; // Means that this Uri is not a Controller Uri
+		
+		if($isNotEmpty && $isDifferentWithUri)
 		{
 			$methodName = $replace;
 		}
@@ -97,11 +100,11 @@ class Page
 		
 		$methodName = $this->extractMethodName($application->getCurrentUri());
 		
-		if($methodName != null)
+		if($methodName != null && !empty($methodName))
 		{
 			if(method_exists($controller, $methodName))
 			{
-				$controller->$methodName();
+				$controller->$methodName(Iujs::findViewData());
 			}
 			else 
 			{
@@ -124,8 +127,11 @@ class Page
 		{
 			$firstSegments = implode('/', array($explode[0]. $explode[1], $explode[2]));
 			$firstSegments = "/$firstSegments";
-				
-			if($firstSegments == $this->cleanUri())
+			
+			$isMethodUri     = $firstSegments == $this->cleanUri(); // Uri that contains only controller name
+			$isControllerUri = $firstSegments == $this->uri;        // Uri that contains both controller & method name
+			
+			if($isMethodUri || $isControllerUri);
 			{
 				return true;
 			}
